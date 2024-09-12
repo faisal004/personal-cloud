@@ -6,10 +6,14 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+      "drizzle:migrate": "drizzle-kit generate --config drizzle.config.ts"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.9.5",
     "@repo/ui": "workspace:*",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.33.0",
     "next": "14.2.6",
     "react": "18.3.1",
     "react-dom": "18.3.1"
@@ -17,14 +21,15 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "tailwind-config": "workspace:*",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.20",
+    "drizzle-kit": "^0.24.2",
     "eslint": "^8",
     "eslint-config-next": "14.2.6",
     "postcss": "^8.4.45",
+    "tailwind-config": "workspace:*",
     "tailwindcss": "^3.4.11",
     "typescript": "^5"
   }
