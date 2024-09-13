@@ -1,23 +1,27 @@
-import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { integer, pgTable, serial, text, timestamp ,boolean} from 'drizzle-orm/pg-core';
 
 export const usersTable = pgTable('users_table', {
-  id: serial('id').primaryKey(),
+  id: text('id').primaryKey().notNull(),
   name: text('name').notNull(),
   age: integer('age').notNull(),
   email: text('email').notNull().unique(),
+
 });
 
-export const postsTable = pgTable('posts_table', {
-  id: serial('id').primaryKey(),
-  title: text('title').notNull(),
-  content: text('content').notNull(),
-  userId: integer('user_id')
+
+
+export const authenticators = pgTable('authenticators', {
+  id: text('id').primaryKey().notNull(), 
+  credentialID: text('credential_id').notNull().unique(), 
+  userId: text('user_id') 
     .notNull()
-    .references(() => usersTable.id, { onDelete: 'cascade' }),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
-    .notNull()
-    .$onUpdate(() => new Date()),
+    .references(() => usersTable.id, { onDelete: 'cascade' }), 
+  providerAccountId: text('provider_account_id').notNull(),
+  credentialPublicKey: text('credential_public_key').notNull(),
+  counter: integer('counter').notNull(),
+  credentialDeviceType: text('credential_device_type').notNull(),
+  credentialBackedUp: boolean('credential_backed_up').notNull(),
+  transports: text('transports').default(""),
 });
 
 export type InsertUser = typeof usersTable.$inferInsert;

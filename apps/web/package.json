@@ -7,14 +7,18 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-      "drizzle:migrate": "drizzle-kit generate --config drizzle.config.ts"
+    "drizzle:migrate": "drizzle-kit generate --config drizzle.config.ts"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.4.2",
     "@neondatabase/serverless": "^0.9.5",
     "@repo/ui": "workspace:*",
+    "@simplewebauthn/browser": "9.0.1",
+    "@simplewebauthn/server": "9.0.3",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.33.0",
     "next": "14.2.6",
+    "next-auth": "5.0.0-beta.20",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },
