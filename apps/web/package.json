@@ -6,9 +6,7 @@
     "dev": "next dev ",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "drizzle:migrate": "drizzle-kit generate --config drizzle.config.ts"
-  },
+    "lint": "next lint"  },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.4.2",
     "@neondatabase/serverless": "^0.9.5",
