@@ -3,9 +3,8 @@
 import { useSession } from 'next-auth/react'
 import { signIn } from 'next-auth/webauthn'
 import { signOut } from "next-auth/react"
-import { useEffect } from 'react'
 export default function Login() {
-  const { status,data } = useSession()
+  const { status } = useSession()
 console.log(status)
   // const getAuth = async () => {
   //   try {
