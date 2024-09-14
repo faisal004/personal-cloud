@@ -1,7 +1,6 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import { signIn } from 'next-auth/webauthn'
 import { signOut } from "next-auth/react"
 export default function Login() {
   const { status } = useSession()
@@ -31,7 +30,7 @@ console.log(status)
         </>
       
       ) : status === 'unauthenticated' ? (
-        <button onClick={() => signIn('passkey')}>Sign in with Passkey</button>
+        <button >Sign in with Passkey</button>
       ) : null}
     </div>
   )
