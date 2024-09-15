@@ -1,5 +1,13 @@
-import { integer, pgTable, serial, text, timestamp ,boolean} from 'drizzle-orm/pg-core';
+import { integer, pgTable, serial, text, timestamp, boolean } from 'drizzle-orm/pg-core';
 
+
+
+
+export const todos = pgTable("todos", {
+  id: integer("id").primaryKey(),
+  content: text("content").notNull(),
+  done : boolean("false")
+})
 export const usersTable = pgTable('users_table', {
   id: text('id').primaryKey().notNull(),
   name: text('name').notNull(),
@@ -11,11 +19,11 @@ export const usersTable = pgTable('users_table', {
 
 
 export const authenticators = pgTable('authenticators', {
-  id: text('id').primaryKey().notNull(), 
-  credentialID: text('credential_id').notNull().unique(), 
-  userId: text('user_id') 
+  id: text('id').primaryKey().notNull(),
+  credentialID: text('credential_id').notNull().unique(),
+  userId: text('user_id')
     .notNull()
-    .references(() => usersTable.id, { onDelete: 'cascade' }), 
+    .references(() => usersTable.id, { onDelete: 'cascade' }),
   providerAccountId: text('provider_account_id').notNull(),
   credentialPublicKey: text('credential_public_key').notNull(),
   counter: integer('counter').notNull(),

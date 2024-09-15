@@ -2,7 +2,18 @@
     "name": "@repo/db",
     "version": "0.0.0",
     "exports": {
-        ".": "./src/index.ts"
+        ".": {
+          "types": "./dist/index.d.ts",
+          "default": "./src/index.ts"
+        },
+        "./client": {
+          "types": "./dist/database.d.ts",
+          "default": "./src/database.ts"
+        },
+        "./schema": {
+          "types": "./dist/schema.d.ts",
+          "default": "./src/schema.ts"
+        }
       },
       "scripts": {
         "db:seed": "tsx scripts/seed.ts",
