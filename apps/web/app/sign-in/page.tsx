@@ -14,6 +14,7 @@ export default async function SignIn() {
     >
       <button type="submit">Signin with GitHub</button>
     </form>
+    
     <pre>
       {JSON.stringify(session)}
     </pre>

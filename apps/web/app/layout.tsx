@@ -24,15 +24,17 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <SessionProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <SessionProvider>
+
           <Provider>
           {children}
 
           </Provider>
+          </SessionProvider>
+
         </body>
       </html>
-    </SessionProvider>
   )
 }

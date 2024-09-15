@@ -12,6 +12,8 @@
     "@auth/drizzle-adapter": "^1.4.2",
     "@repo/db": "workspace:*",
     "@repo/ui": "workspace:*",
+    "@simplewebauthn/browser": "9.0.1",
+    "@simplewebauthn/server": "9.0.3",
     "@tanstack/react-query": "^4.35.3",
     "@trpc/client": "^10.45.2",
     "@trpc/react-query": "^10.45.2",

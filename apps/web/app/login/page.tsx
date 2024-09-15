@@ -1,10 +1,9 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { signOut } from "next-auth/react"
 export default function Login() {
   const { status } = useSession()
-console.log(status)
   // const getAuth = async () => {
   //   try {
   //     const session = await auth()
@@ -21,16 +20,16 @@ console.log(status)
 
       {status === 'authenticated' ? (
         <>
-          {/* <button onClick={() => signIn('passkey', { action: 'register' })}>
+           <button onClick={() => signIn('passkey', { action: 'register' })}>
           Register new Passkey
-        </button> */}
+        </button>
          <button onClick={() => signOut()}>
          Signout
        </button>
         </>
       
       ) : status === 'unauthenticated' ? (
-        <button >Sign in with Passkey</button>
+        <button onClick={() => signIn("passkey")}>Sign in with Passkey</button>
       ) : null}
     </div>
   )
