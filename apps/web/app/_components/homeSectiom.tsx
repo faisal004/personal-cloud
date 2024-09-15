@@ -1,7 +1,7 @@
 'use client'
 const HomeSection = () => {
   return (
-    <div className="flex flex-col gap-1 items-center justify-center min-h-screen md:pt-12">
+    <div className="flex flex-col gap-1 items-center justify-center pt-[50px] md:pt-12">
       <div className="flex flex-col items-center justify-center  ">
         <div>
           <video
