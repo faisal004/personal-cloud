@@ -14,7 +14,7 @@ const HomeSection = () => {
             muted
           ></video>
         </div>
-        <div className="font-bold md:text-[140px] text-8xl">myCloud</div>
+        <div className="font-bold md:text-[140px] text-7xl">myCloud</div>
       </div>
       <div className="flex flex-col items-center justify-center mt-[80px] md:mt-[0px]">
         <div>

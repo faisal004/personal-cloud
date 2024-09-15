@@ -3,7 +3,7 @@ import Card from "./card";
 
 
 const CardSection = () => {
-    return ( <div className="grid py-24 md:grid-cols-2 grid-cols-1 mx-auto max-w-[1200px] gap-10 px-12  ">
+return ( <div className="grid py-24 md:grid-cols-2 grid-cols-1 mx-auto max-w-[1100px] gap-10 px-8  ">
        <Card
         image="/2.png"
         head="Easily access apps and data from your iPhone on the web"

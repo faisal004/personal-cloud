@@ -25,7 +25,7 @@ const Card: React.FC<CardProps> = ({ image, head, subhead }) => {
         {head && <h2 className="text-[28px] leading-8 font-bold text-gray-800">{head}</h2>}
       </div>
       <div className="">
-        {subhead && <p className="md:mt-7 mt-2 ">{subhead}</p>}
+        {subhead && <p className="md:mt-3 mb-2 ">{subhead}</p>}
       </div>
     </div>
   )
