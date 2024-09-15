@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.4.2",
     "@repo/db": "workspace:*",
     "@repo/ui": "workspace:*",
     "@tanstack/react-query": "^4.35.3",

@@ -1,9 +1,12 @@
 
-import { signIn } from "../../auth"
+import { auth, signIn } from "../../auth"
  
-export default function SignIn() {
+export default async function SignIn() {
+  const session=await auth()
+  // console.log(session)
   return (
-    <form
+    <>
+     <form
       action={async () => {
         "use server"
         await signIn("github")
@@ -11,5 +14,10 @@ export default function SignIn() {
     >
       <button type="submit">Signin with GitHub</button>
     </form>
+    <pre>
+      {JSON.stringify(session)}
+    </pre>
+    </>
+   
   )
 } 
