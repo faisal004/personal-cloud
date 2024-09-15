@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.4.2",
+    "@next/font": "^14.2.11",
     "@repo/db": "workspace:*",
     "@repo/ui": "workspace:*",
     "@simplewebauthn/browser": "9.0.1",

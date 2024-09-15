@@ -1,16 +1,9 @@
-import TodoList from "./_components/Todolist";
-
+import HomeSection from "./_components/homeSectiom";
+import Navbar from "./_components/navbar";
 
 export default function Home() {
-  return (
- 
- <>
-  <div className="bg-red-500 ">
-    hi
-   </div>
-   <TodoList/>
-    </>
- 
-
-  );
+  return <div className="bg-slate-50 ">
+    <Navbar/>
+    <HomeSection/>
+  </div>
 }
