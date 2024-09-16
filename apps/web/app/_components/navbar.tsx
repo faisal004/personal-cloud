@@ -1,5 +1,6 @@
 'use client'
 import useScrollTop from '../../hooks/use-scroll'
+import Link from 'next/link'
 
 const Navbar = () => {
   const scrolled = useScrollTop()
@@ -11,7 +12,7 @@ const Navbar = () => {
           : 'bg-transparent'
       } `}
     >
-      <div className="font-bold tracking-wide p-1 text-2xl">myCloud</div>
+      <Link href={'/'} className="font-bold tracking-wide p-1 text-2xl">myCloud</Link>
     </div>
   )
 }
