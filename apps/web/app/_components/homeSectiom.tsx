@@ -1,6 +1,7 @@
 'use client'
 
 import { signIn, signOut, useSession } from 'next-auth/react'
+import Link from 'next/link'
 
 const HomeSection = () => {
   const { status } = useSession()
@@ -25,12 +26,11 @@ const HomeSection = () => {
         <div>
           {status === 'authenticated' ? (
             <>
-              {/* <button
-                onClick={() => signIn('passkey', { action: 'register' })}
+              <Link href={"/dashboard"}
                 className="bg-black rounded-full font-light text-white px-10 py-2 text-2xl mt-7 tracking-wider"
               >
-                N
-              </button> */}
+                Dashboard
+              </Link>
               <button
                 onClick={() => signOut()}
                 className="bg-black rounded-full font-light text-white px-10 py-2 text-2xl mt-7 tracking-wider"
