@@ -50,6 +50,13 @@
       "when": 1726401299686,
       "tag": "0006_luxuriant_nitro",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1726591341753,
+      "tag": "0007_wide_chat",
+      "breakpoints": true
     }
   ]
 }

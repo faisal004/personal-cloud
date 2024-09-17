@@ -1,12 +1,10 @@
 'use client'
 import Image from 'next/image'
-import { UploadButton, UploadDropzone } from '../../../utils/uploadthing'
+import {  UploadDropzone } from '../../../utils/uploadthing'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
+
   DialogTrigger,
 } from '../../ui/dialog'
 
@@ -34,8 +32,7 @@ const PhotoCard = () => {
                 appearance={{
                   button:
                     'ut-ready:bg-green-500 ut-uploading:cursor-not-allowed  bg-blue-500 bg-none after:bg-orange-400 h-16 px-2 rounded-xl',
-                  container:
-                    'w-80 h-40 flex-row rounded-md  w-full mx-auto',
+                  container: 'w-80 h-40 flex-row rounded-md  w-full mx-auto',
                   allowedContent:
                     'flex h-8 flex-col items-center justify-center px-2 text-white',
                 }}

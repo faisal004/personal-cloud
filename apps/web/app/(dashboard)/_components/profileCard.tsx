@@ -3,7 +3,6 @@ import { auth } from '../../../auth'
 
 const ProfileCard = async () => {
   const session = await auth()
-  console.log(session)
   return (
     <div>
       <div className="relative w-full h-full flex flex-col items-start justify-center overflow-hidden p-10 rounded-3xl bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#f5f5f5]  to-[#80bef0] hover:shadow-2xl hover:shadow-black cursor-pointer hover:scale-102 transition-all duration-300">

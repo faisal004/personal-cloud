@@ -12,7 +12,10 @@ export const authConfig =
     providers: [Passkey],
     experimental: { enableWebAuthn: true },
     callbacks: {
-  
+      async session({session, user}) {
+        session.user.id = user.id
+        return session
+      },
         authorized({ auth, request: { nextUrl } }) {
           const isLoggedIn = !!auth?.user
           const paths = ["/error"]

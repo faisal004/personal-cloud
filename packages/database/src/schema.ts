@@ -5,6 +5,7 @@ import {
   text,
   primaryKey,
   integer,
+  varchar,
 } from "drizzle-orm/pg-core"
 
 
@@ -12,7 +13,7 @@ import {
 export const todos = pgTable("todos", {
   id: integer("id").primaryKey(),
   content: text("content").notNull(),
-  done : boolean("false")
+  done: boolean("false")
 })
 export const users = pgTable("user", {
   id: text("id")
@@ -23,7 +24,7 @@ export const users = pgTable("user", {
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
 })
- 
+
 export const accounts = pgTable(
   "account",
   {
@@ -47,7 +48,7 @@ export const accounts = pgTable(
     }),
   })
 )
- 
+
 export const sessions = pgTable("session", {
   sessionToken: text("sessionToken").primaryKey(),
   userId: text("userId")
@@ -55,7 +56,7 @@ export const sessions = pgTable("session", {
     .references(() => users.id, { onDelete: "cascade" }),
   expires: timestamp("expires", { mode: "date" }).notNull(),
 })
- 
+
 export const verificationTokens = pgTable(
   "verificationToken",
   {
@@ -69,7 +70,20 @@ export const verificationTokens = pgTable(
     }),
   })
 )
- 
+
+export const images = pgTable(
+  "images",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    url: varchar("url", { length: 1024 }).notNull(),
+
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+  }
+)
 export const authenticators = pgTable(
   "authenticator",
   {
@@ -90,3 +104,4 @@ export const authenticators = pgTable(
     }),
   })
 )
+
