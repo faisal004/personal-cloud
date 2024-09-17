@@ -13,7 +13,6 @@ export const ourFileRouter = {
         .middleware(async () => {
             // This code runs on your server before upload
             const session = await auth()
-
             // If you throw, the user will not be able to upload
             if (!session?.user) throw new UploadThingError("Unauthorized");
 
@@ -22,11 +21,13 @@ export const ourFileRouter = {
         })
         .onUploadComplete(async ({ metadata, file }) => {
             // This code RUNS ON YOUR SERVER after upload
-            // console.log("Upload complete for userId:", metadata.userId,file.url);
-            // await db.insert(images).values({
-            //     userId: JSON.stringify(metadata.userId),
-            //     url: file.url
-            //   });
+            console.log("Upload complete for userId:", typeof(metadata.userId),file.url);
+            await db.insert(images).values({           
+                url: file.url,
+                userId: metadata?.userId as string,
+            });
+       
+            
             console.log("file url", file.url);
 
             // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback

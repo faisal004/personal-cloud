@@ -23,12 +23,7 @@ const PhotoCard = () => {
           <span className="text-2xl font-bold">Photos</span>
         </div>
         <div>
-          <Dialog>
-            <DialogTrigger className="bg-gradient-to-tr from-[#aecef6] to-[#e8eeef] py-2 px-3 rounded-lg hover:shadow-sm">
-              Upload
-            </DialogTrigger>
-            <DialogContent className="bg-white w-fit">
-              <UploadDropzone
+        <UploadDropzone
                 appearance={{
                   button:
                     'ut-ready:bg-green-500 ut-uploading:cursor-not-allowed  bg-blue-500 bg-none after:bg-orange-400 h-16 px-2 rounded-xl',
@@ -46,6 +41,12 @@ const PhotoCard = () => {
                   alert(`ERROR! ${error.message}`)
                 }}
               />
+          <Dialog>
+            <DialogTrigger className="bg-gradient-to-tr from-[#aecef6] to-[#e8eeef] py-2 px-3 rounded-lg hover:shadow-sm">
+              Upload
+            </DialogTrigger>
+            <DialogContent className="bg-white w-fit">
+           
             </DialogContent>
           </Dialog>
         </div>
