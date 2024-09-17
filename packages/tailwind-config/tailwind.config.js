@@ -10,7 +10,15 @@ module.exports = {
         "../../packages/**/*.{js,ts,jsx,tsx}"
     ],
     theme: {
-        extend: {},
+        extend: {
+            screens: {
+                'lgnew': '1025px'
+              },
+              scale: {
+                '102': '1.02',
+              }
+        
+        },
     },
     plugins: [],
 }
