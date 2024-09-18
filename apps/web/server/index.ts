@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { publicProcedure, router } from './trpc';
-import { todos, db, images } from "@repo/db"
+import { todos, db, images, files } from "@repo/db"
 import { eq } from 'drizzle-orm';
 export const appRouter = router({
   getTodos: publicProcedure.query(async () => {
@@ -31,6 +31,15 @@ export const appRouter = router({
         .from(images)
         .where(eq(images.userId, input));
       return imagesForUser;
+    }),
+    getFilesByUserId: publicProcedure
+    .input(z.string())
+    .query(async ({ input }) => {
+      const filesForUser = await db
+        .select()
+        .from(files)
+        .where(eq(files.userId, input));
+      return filesForUser;
     }),
 });
 

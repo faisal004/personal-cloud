@@ -1,3 +1,4 @@
+import DocCard from '../_components/docCard'
 import PhotoCard from '../_components/photoCard'
 import ProfileCard from '../_components/profileCard'
 
@@ -10,7 +11,7 @@ const UserDashboard = () => {
           <PhotoCard/>
         </div>
         <div className='lgnew:col-span-2 h-full '>
-          <PhotoCard/>
+          <DocCard/>
         </div>
         <ProfileCard />
       </div>
