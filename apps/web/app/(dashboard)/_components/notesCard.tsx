@@ -6,25 +6,27 @@ import { trpc } from '../../_trpc/client'
 import { useSession } from 'next-auth/react'
 import { FaPen } from 'react-icons/fa'
 import { NotesEditor } from './notesEditor'
+import { useState } from 'react'
 
 const NotesCard = () => {
   const { data } = useSession()
-
+const [open,setOpen]=useState(false)
   const userId = data?.user?.id
 
-  const { data: notes, isLoading, error } = trpc.geNotesByUserId.useQuery(
+  const { data: notes, isLoading, error,refetch } = trpc.geNotesByUserId.useQuery(
     userId as string,
   )
 
-  //  if (isLoading) {
-  //    return <div>Loading...</div>
-  //  }
 
+  const handleCloseDialog = () => {
+    setOpen(false);
+    refetch(); 
+  };
   if (error) {
     console.error(error)
     return <div>Error loading images.</div>
   }
-  console.log(notes)
+
   return (
     <div className="w-full bg-white h-full flex flex-col overflow-hidden  rounded-3xl hover:shadow-2xl hover:shadow-black cursor-pointer hover:scale-102 transition-all duration-300">
       <div className="bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#f5f5f5]  to-[#b5daf8]  bg-opacity-30  px-4 py-2 flex items-center justify-between">
@@ -42,12 +44,12 @@ const NotesCard = () => {
           </div>
         </div>
         <div>
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="bg-gradient-to-tr from-[#aecef6] to-[#e8eeef] py-2 px-3 rounded-lg hover:shadow-sm">
               <FaPen />
             </DialogTrigger>
             <DialogContent className="bg-white w-[80vw] h-[80vh] p-3">
-              <NotesEditor />
+              <NotesEditor onClose={handleCloseDialog}/>
             </DialogContent>
           </Dialog>
         </div>
@@ -72,7 +74,7 @@ const NotesCard = () => {
             </div>
           ) : (
             <div className="flex items-center justify-center h-[300px]">
-              <div className="grid grid-cols-4 w-full h-full">
+              <div className="grid grid-cols-2 w-full h-full">
                 <div className="  bg-white"></div>
                 <div className=" bg-gray-50"></div>
                 <div className="  bg-white"></div>

@@ -11,7 +11,7 @@ import { trpc } from '../../_trpc/client';
 import { useSession } from 'next-auth/react'
 
 
-export const NotesEditor = () => {
+export const NotesEditor = ({ onClose}:any) => {
   const { data } = useSession()
 
   const userId = data?.user?.id
@@ -44,6 +44,7 @@ export const NotesEditor = () => {
         setCurrentNoteId(newNoteId?.id as string)
         console.log("New note created:", newNoteId);
       }
+      onClose();
     } catch (error) {
       console.error("Error saving content:", error);
     }
