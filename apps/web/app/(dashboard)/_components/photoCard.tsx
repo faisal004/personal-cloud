@@ -26,7 +26,7 @@ const PhotoCard = () => {
   console.log(images)
   return (
     <div className="w-full bg-white h-full flex flex-col overflow-hidden  rounded-3xl hover:shadow-2xl hover:shadow-black cursor-pointer hover:scale-102 transition-all duration-300">
-      <div className="bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#f5f5f5]  to-[#b5daf8]  bg-opacity-30  p-4 flex items-center justify-between">
+      <div className="bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#f5f5f5]  to-[#b5daf8]  bg-opacity-30  px-4 py-2 flex items-center justify-between">
         <div className=" flex items-start gap-2 p-2">
           <Image
             src="/image.png"
@@ -35,7 +35,11 @@ const PhotoCard = () => {
             alt="Cloud"
             className=" bg-white rounded-lg"
           />
-          <span className="text-2xl font-bold">Photos</span>
+          <div className='flex flex-col'>
+          <span className="text-xl font-bold">Photos</span>
+          <span className='text-xs font-extralight pt-1'>Library - {images?.length} Photos </span>
+          </div>
+        
         </div>
         <div>
           <Dialog>
