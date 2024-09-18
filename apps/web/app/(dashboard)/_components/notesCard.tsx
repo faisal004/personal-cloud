@@ -11,15 +11,21 @@ import { useState } from 'react'
 const NotesCard = () => {
   const { data } = useSession()
 const [open,setOpen]=useState(false)
+const [selectedNote, setSelectedNote] = useState(null)
   const userId = data?.user?.id
 
   const { data: notes, isLoading, error,refetch } = trpc.geNotesByUserId.useQuery(
     userId as string,
   )
 
+  const handleEditClick = (note:any ) => {
+    setSelectedNote(note) 
+    setOpen(true)
+  }
 
   const handleCloseDialog = () => {
     setOpen(false);
+    setSelectedNote(null)
     refetch(); 
   };
   if (error) {
@@ -49,7 +55,7 @@ const [open,setOpen]=useState(false)
               <FaPen />
             </DialogTrigger>
             <DialogContent className="bg-white w-[80vw] h-[80vh] p-3">
-              <NotesEditor onClose={handleCloseDialog}/>
+              <NotesEditor note={selectedNote} onClose={handleCloseDialog}/>
             </DialogContent>
           </Dialog>
         </div>
@@ -61,7 +67,8 @@ const [open,setOpen]=useState(false)
               {notes.map((notes) => (
                 <div
                   key={notes.id}
-                  className="grid grid-cols-1 p-1 border-b-2 m-2 "
+                  className="grid grid-cols-1 p-1 border-b-2 m-2 hover:bg-slate-50 "
+                  onClick={() => handleEditClick(notes)} 
                 >
                    <div className='text-[20px] capitalize'>
                    <div dangerouslySetInnerHTML={{ __html: notes.content.slice(0,10)}} />

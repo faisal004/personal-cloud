@@ -11,11 +11,11 @@ import { trpc } from '../../_trpc/client';
 import { useSession } from 'next-auth/react'
 
 
-export const NotesEditor = ({ onClose}:any) => {
+export const NotesEditor = ({  note,onClose}:any) => {
   const { data } = useSession()
 
   const userId = data?.user?.id
-  const [value, setValue] = useState('simple text');
+  const [value, setValue] = useState(note ? note.content : '');
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
   const addNoteMutation = trpc.addNote.useMutation();
   const updateNoteMutation = trpc.updateNote.useMutation();
@@ -57,7 +57,11 @@ export const NotesEditor = ({ onClose}:any) => {
       }
     };
   }, [typingTimeout]);
-
+  useEffect(() => {
+    if (note) {
+      setCurrentNoteId(note.id); 
+    }
+  }, [note]);
   return (
     <EditorProvider>
            <Editor value={value} onChange={onChange}>
