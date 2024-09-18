@@ -67,7 +67,7 @@ const [selectedNote, setSelectedNote] = useState(null)
               {notes.map((notes) => (
                 <div
                   key={notes.id}
-                  className="grid grid-cols-1 p-1 border-b-2 m-2 hover:bg-slate-50 "
+                  className="grid grid-cols-1  border-b-2 p-2 hover:bg-slate-50 "
                   onClick={() => handleEditClick(notes)} 
                 >
                    <div className='text-[20px] capitalize'>
