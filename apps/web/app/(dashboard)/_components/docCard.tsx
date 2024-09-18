@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogTrigger } from '../../ui/dialog'
 import { trpc } from '../../_trpc/client'
 import { useSession } from 'next-auth/react'
 import { IoMdTime } from 'react-icons/io'
+import Link from 'next/link'
 
 const DocCard = () => {
   const { data } = useSession()
@@ -18,7 +19,6 @@ const DocCard = () => {
     console.error(error)
     return <div>Error loading files.</div>
   }
-
   return (
     <div className="w-full bg-white h-full flex flex-col overflow-hidden rounded-3xl hover:shadow-2xl hover:shadow-black cursor-pointer hover:scale-102 transition-all duration-300">
       <div className="bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#f5f5f5] to-[#b5daf8] bg-opacity-30 px-4 py-2 flex items-center justify-between">
@@ -76,13 +76,14 @@ const DocCard = () => {
                     index >= 4 ? 'hidden lg:block' : ''
                   } ${index >= 7 ? 'lg:hidden' : ''}`}
                 >
-                  <div className="absolute inset-0 group-hover:bg-black/40 z-20"></div>
-
-                  <iframe
-                    src={file.url}
-                    className="h-full w-full"
-                    title="PDF Viewer"
-                  ></iframe>
+                  <Link href={file.url} target='_blank'>
+                    <div className="absolute inset-0 group-hover:bg-black/40 z-20"></div>
+                    <iframe
+                      src={file.url}
+                      className="h-full w-full"
+                      title="PDF Viewer"
+                    ></iframe>
+                  </Link>
                 </div>
               ))}
             </div>
