@@ -57,7 +57,7 @@ const [open,setOpen]=useState(false)
       {!isLoading && (
         <div className="h-[300px] ">
           {notes && notes.length > 0 ? (
-            <div className=" md:h-full h-[300px]  flex flex-col overflow-scroll ">
+            <div className=" md:h-full h-[300px]  flex flex-col overflow-y-scroll ">
               {notes.map((notes) => (
                 <div
                   key={notes.id}
