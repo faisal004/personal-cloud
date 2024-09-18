@@ -11,7 +11,9 @@
   "dependencies": {
     "@auth/drizzle-adapter": "^1.4.2",
     "@next/font": "^14.2.11",
+    "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-slot": "^1.1.0",
     "@repo/db": "workspace:*",
     "@repo/ui": "workspace:*",
     "@simplewebauthn/browser": "9.0.1",
@@ -22,6 +24,7 @@
     "@trpc/server": "^10.45.2",
     "@uploadthing/react": "^7.0.2",
     "babel-polyfill": "^6.26.0",
+    "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "draft-js": "^0.11.7",
     "drizzle-orm": "^0.33.0",

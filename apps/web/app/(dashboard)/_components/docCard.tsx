@@ -104,7 +104,7 @@ const DocCard = () => {
         </div>
       )}
       {isLoading && (
-        <div className="flex items-center justify-center h-full">
+        <div className="flex items-center justify-center h-[300px]">
           Loading...
         </div>
       )}

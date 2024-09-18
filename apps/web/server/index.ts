@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { publicProcedure, router } from './trpc';
 import { todos, db, images, files, notes } from "@repo/db"
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 export const appRouter = router({
   getTodos: publicProcedure.query(async () => {
     return await db.select().from(todos);
@@ -87,6 +87,28 @@ export const appRouter = router({
         .from(notes)
         .where(eq(notes.userId, input));
       return noteForUser;
+    }),
+    deleteNote: publicProcedure
+    .input(z.object({
+      id: z.string(),
+      userId: z.string(),
+    }))
+    .mutation(async (opts) => {
+      const existingNote = await db
+        .select()
+        .from(notes)
+        .where(and(
+          eq(notes.id, opts.input.id),
+          eq(notes.userId, opts.input.userId) 
+        ))
+        .execute();
+
+      if (existingNote.length > 0) {
+        await db.delete(notes).where(eq(notes.id, opts.input.id));
+        return { success: true, message: 'Note deleted successfully.' };
+      } else {
+        throw new Error('Note not found or you do not have permission to delete this note.');
+      }
     }),
 });
 
