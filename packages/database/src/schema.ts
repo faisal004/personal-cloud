@@ -97,6 +97,19 @@ export const files = pgTable(
       .references(() => users.id, { onDelete: "cascade" }),
   }
 )
+export const notes = pgTable(
+  "notes",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    content: text('content').notNull(),
+
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+  }
+)
 export const authenticators = pgTable(
   "authenticator",
   {

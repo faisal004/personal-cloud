@@ -53,7 +53,7 @@ const DocCard = () => {
                     'flex h-8 flex-col items-center justify-center px-2 text-white',
                 }}
                 endpoint="fileUploader"
-                onClientUploadComplete={(res) => {
+                onClientUploadComplete={(res:any) => {
                   console.log('Files: ', res)
                   alert('Upload Completed')
                 }}

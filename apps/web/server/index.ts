@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { publicProcedure, router } from './trpc';
-import { todos, db, images, files } from "@repo/db"
+import { todos, db, images, files, notes } from "@repo/db"
 import { eq } from 'drizzle-orm';
 export const appRouter = router({
   getTodos: publicProcedure.query(async () => {
@@ -23,7 +23,7 @@ export const appRouter = router({
       });
       return true;
     }),
-    getImagesByUserId: publicProcedure
+  getImagesByUserId: publicProcedure
     .input(z.string())
     .query(async ({ input }) => {
       const imagesForUser = await db
@@ -32,7 +32,7 @@ export const appRouter = router({
         .where(eq(images.userId, input));
       return imagesForUser;
     }),
-    getFilesByUserId: publicProcedure
+  getFilesByUserId: publicProcedure
     .input(z.string())
     .query(async ({ input }) => {
       const filesForUser = await db
@@ -40,6 +40,55 @@ export const appRouter = router({
         .from(files)
         .where(eq(files.userId, input));
       return filesForUser;
+    }),
+  addNote: publicProcedure
+    .input(z.object({
+      userId: z.string(),
+      content: z.string(),
+    }))
+    .mutation(async (opts) => {
+      const existingNote = await db
+        .select()
+        .from(notes)
+        .where(eq(notes.userId, opts.input.userId))
+        .execute();
+
+      if (existingNote.length > 0) {
+        await db.update(notes)
+          .set({ content: opts.input.content })
+          .where(eq(notes.id, existingNote[0]?.id as string));
+        return existingNote[0];
+      } else {
+        const [newNote] = await db.insert(notes).values({
+          userId: opts.input.userId,
+          content: opts.input.content,
+        }).returning();
+        return newNote;
+      }
+    }),
+
+  updateNote: publicProcedure
+    .input(z.object({
+      id: z.string(),
+      content: z.string(),
+    }))
+    .mutation(async (opts) => {
+      const existingNote = await db
+        .select()
+        .from(notes)
+        .where(eq(notes.id, opts.input.id))
+        .execute();
+
+      if (existingNote.length > 0) {
+        await db
+          .update(notes)
+          .set({ content: opts.input.content })
+          .where(eq(notes.id, opts.input.id));
+
+        return existingNote[0];
+      } else {
+        throw new Error('Note not found');
+      }
     }),
 });
 
