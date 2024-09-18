@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { publicProcedure, router } from './trpc';
 import { todos, db, images } from "@repo/db"
+import { eq } from 'drizzle-orm';
 export const appRouter = router({
   getTodos: publicProcedure.query(async () => {
     return await db.select().from(todos);
@@ -21,6 +22,15 @@ export const appRouter = router({
         url: opts.input.url
       });
       return true;
+    }),
+    getImagesByUserId: publicProcedure
+    .input(z.string())
+    .query(async ({ input }) => {
+      const imagesForUser = await db
+        .select()
+        .from(images)
+        .where(eq(images.userId, input));
+      return imagesForUser;
     }),
 });
 

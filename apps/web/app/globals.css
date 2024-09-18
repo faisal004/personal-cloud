@@ -18,3 +18,9 @@ body {
 }
 
 
+@media screen and (max-width: 1024px) {
+  .photo-grid > :nth-child(n+5) {
+    display: none;
+  }
+}
+
