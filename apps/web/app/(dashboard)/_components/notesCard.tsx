@@ -4,7 +4,7 @@ import { UploadDropzone } from '../../../utils/uploadthing'
 import { Dialog, DialogContent, DialogTrigger } from '../../ui/dialog'
 import { trpc } from '../../_trpc/client'
 import { useSession } from 'next-auth/react'
-import { FaPen } from "react-icons/fa";
+import { FaPen } from 'react-icons/fa'
 import { NotesEditor } from './notesEditor'
 
 const NotesCard = () => {
@@ -12,7 +12,7 @@ const NotesCard = () => {
 
   const userId = data?.user?.id
 
-  const { data: images, isLoading, error } = trpc.getImagesByUserId.useQuery(
+  const { data: notes, isLoading, error } = trpc.geNotesByUserId.useQuery(
     userId as string,
   )
 
@@ -24,7 +24,7 @@ const NotesCard = () => {
     console.error(error)
     return <div>Error loading images.</div>
   }
-
+  console.log(notes)
   return (
     <div className="w-full bg-white h-full flex flex-col overflow-hidden  rounded-3xl hover:shadow-2xl hover:shadow-black cursor-pointer hover:scale-102 transition-all duration-300">
       <div className="bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#f5f5f5]  to-[#b5daf8]  bg-opacity-30  px-4 py-2 flex items-center justify-between">
@@ -38,42 +38,35 @@ const NotesCard = () => {
           />
           <div className="flex flex-col">
             <span className="text-xl font-bold">Notes</span>
-            <span className="text-xs font-extralight pt-1">
-              All Notes
-            </span>
+            <span className="text-xs font-extralight pt-1">All Notes</span>
           </div>
         </div>
         <div>
           <Dialog>
             <DialogTrigger className="bg-gradient-to-tr from-[#aecef6] to-[#e8eeef] py-2 px-3 rounded-lg hover:shadow-sm">
-            <FaPen />
-
+              <FaPen />
             </DialogTrigger>
             <DialogContent className="bg-white w-[80vw] h-[80vh] p-3">
-          <NotesEditor/>
+              <NotesEditor />
             </DialogContent>
           </Dialog>
         </div>
       </div>
       {!isLoading && (
-        <div className="h-full overflow-hidden  ">
-          {images && images.length > 0 ? (
-            <div className="grid lgnew:grid-cols-4 grid-cols-2 md:h-full h-[300px] photo-grid  ">
-              {images.map((image, index) => (
+        <div className="h-[300px] ">
+          {notes && notes.length > 0 ? (
+            <div className=" md:h-full h-[300px]  flex flex-col overflow-scroll ">
+              {notes.map((notes) => (
                 <div
-                  key={image.id}
-                  className={`relative h-full w-full group ${
-                    index >= 4 ? 'hidden lg:block' : ''
-                  } ${index >= 7 ? 'lg:hidden' : ''}`}
+                  key={notes.id}
+                  className="grid grid-cols-1 p-1 border-b-2 m-2 "
                 >
-                  <div className="absolute inset-0 group-hover:bg-black/40 z-20"></div>
-                  <Image
-                    src={image.url}
-                    alt="User uploaded"
-                    layout="fill"
-                    objectFit="cover"
-                    className="h-full w-full"
-                  />
+                   <div className='text-[20px] capitalize'>
+                   <div dangerouslySetInnerHTML={{ __html: notes.content.slice(0,10)}} />
+                   </div>
+                  <div className='line-clamp-1'>
+                  <div dangerouslySetInnerHTML={{ __html: notes.content }} />
+                  </div>
                 </div>
               ))}
             </div>

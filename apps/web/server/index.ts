@@ -47,24 +47,13 @@ export const appRouter = router({
       content: z.string(),
     }))
     .mutation(async (opts) => {
-      const existingNote = await db
-        .select()
-        .from(notes)
-        .where(eq(notes.userId, opts.input.userId))
-        .execute();
-
-      if (existingNote.length > 0) {
-        await db.update(notes)
-          .set({ content: opts.input.content })
-          .where(eq(notes.id, existingNote[0]?.id as string));
-        return existingNote[0];
-      } else {
+ 
         const [newNote] = await db.insert(notes).values({
           userId: opts.input.userId,
           content: opts.input.content,
         }).returning();
         return newNote;
-      }
+      
     }),
 
   updateNote: publicProcedure
@@ -89,6 +78,15 @@ export const appRouter = router({
       } else {
         throw new Error('Note not found');
       }
+    }),
+    geNotesByUserId: publicProcedure
+    .input(z.string())
+    .query(async ({ input }) => {
+      const noteForUser = await db
+        .select()
+        .from(notes)
+        .where(eq(notes.userId, input));
+      return noteForUser;
     }),
 });
 
