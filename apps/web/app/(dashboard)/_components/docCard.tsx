@@ -5,25 +5,88 @@ import { Dialog, DialogContent, DialogTrigger } from '../../ui/dialog'
 import { trpc } from '../../_trpc/client'
 import { useSession } from 'next-auth/react'
 import { IoMdTime } from 'react-icons/io'
-import Link from 'next/link'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import ImageGallery from 'react-image-gallery'
+import 'react-image-gallery/styles/css/image-gallery.css'
+import Link from 'next/link'
 
 const DocCard = () => {
   const { data } = useSession()
   const userId = data?.user?.id
-  const [open,setOpen]=useState(false)
-  const { data: files, isLoading, error,refetch } = trpc.files.getFilesByUserId.useQuery(
-    userId as string,
-  )
+  const [open, setOpen] = useState(false)
+  const [galleryOpen, setGalleryOpen] = useState(false)
+  const [startIndex, setStartIndex] = useState(0)
+
+  const {
+    data: files,
+    isLoading,
+    error,
+    refetch,
+  } = trpc.files.getFilesByUserId.useQuery(userId as string)
+
+  const deleteFileMutation = trpc.files.deleteFile.useMutation({
+    onSuccess: () => {
+      toast.success('Document deleted successfully.')
+      setGalleryOpen(false)
+      refetch()
+    },
+    onError: (error: any) => {
+      toast.error(`Error deleting document: ${error.message}`)
+    },
+  })
+
+  const handleDocumentClick = (index: number) => {
+    setStartIndex(index)
+    setGalleryOpen(true)
+  }
+
+  const handleDeleteDocument = (fileId: string) => {
+    deleteFileMutation.mutate({ id: fileId, userId: userId as string })
+  }
+
+  const galleryItems =
+    files?.map((file, index) => ({
+      original: file.url,
+
+      renderItem: () => (
+        <>
+          <div className=" w-full h-full flex flex-col justify-center items-center">
+            <div className="h-full w-full">
+              <iframe
+                src={file.url}
+                className="w-full h-full"
+                title={`Document ${index + 1}`}
+              ></iframe>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 justify-end py-3 w-full mt-20">
+          <Link
+          href={file.url}
+          target='_blank'
+              className=" h-10  items-center flex justify-center text-center right-2 bg-blue-500 text-white p-2 rounded"
+            >
+              Open
+            </Link>
+            <button
+              onClick={() => handleDeleteDocument(file.id)}
+              className=" h-10  items-center flex justify-center text-center right-2 bg-red-500 text-white p-2 rounded"
+            >
+              Delete
+            </button>
+          </div>
+        </>
+      ),
+    })) || []
 
   if (error) {
     console.error(error)
     return <div>Error loading files.</div>
   }
+
   return (
     <div className="w-full bg-white h-full flex flex-col overflow-hidden rounded-3xl hover:shadow-2xl hover:shadow-black cursor-pointer hover:scale-102 transition-all duration-300">
-      <div className="bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#f5f5f5] to-[#b5daf8] bg-opacity-30 px-4 py-2 flex items-center justify-between">
+      <div className="bg-gradient-to-tr from-gray-200 to-blue-200 px-4 py-2 flex items-center justify-between">
         <div className="flex items-start gap-2 p-2">
           <Image
             src="/doc.png"
@@ -42,21 +105,21 @@ const DocCard = () => {
         </div>
         <div>
           <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger className="bg-gradient-to-tr from-[#aecef6] to-[#e8eeef] py-2 px-3 rounded-lg hover:shadow-sm">
+            <DialogTrigger className="bg-gradient-to-tr from-blue-200 to-blue-400 py-2 px-3 rounded-lg hover:shadow-sm">
               Upload
             </DialogTrigger>
             <DialogContent className="bg-white w-fit">
               <UploadDropzone
                 appearance={{
                   button:
-                    'ut-ready:bg-green-500 ut-uploading:cursor-not-allowed bg-blue-500 bg-none after:bg-orange-400 h-16 px-2 rounded-xl',
+                    'ut-ready:bg-green-500 ut-uploading:cursor-not-allowed bg-blue-500 h-16 px-2 rounded-xl',
                   container: 'w-80 h-40 flex-row rounded-md w-full mx-auto',
                   allowedContent:
                     'flex h-8 flex-col items-center justify-center px-2 text-white',
                 }}
                 endpoint="fileUploader"
-                onClientUploadComplete={(res:any) => {
-                  toast.success("Doc have been uploaded Successfully")
+                onClientUploadComplete={() => {
+                  toast.success('Document uploaded successfully')
                   setOpen(false)
                   refetch()
                 }}
@@ -78,21 +141,21 @@ const DocCard = () => {
                   key={file.id}
                   className={`relative h-full w-full group ${
                     index >= 4 ? 'hidden lg:block' : ''
-                  } ${index >= 7 ? 'lg:hidden' : ''}`}
+                  }`}
+                  onClick={() => handleDocumentClick(index)}
                 >
-                  <Link href={file.url} target='_blank'>
-                    <div className="absolute inset-0 group-hover:bg-black/40 z-20"></div>
-                    <iframe
-                      src={file.url}
-                      className="h-full w-full"
-                      title="PDF Viewer"
-                    ></iframe>
-                  </Link>
+                  <div className="absolute inset-0 group-hover:bg-black/40 z-20"></div>
+                  <iframe
+                    src={file.url}
+                    className="h-full w-full"
+                    title="Document Viewer"
+                  ></iframe>
                 </div>
               ))}
             </div>
           ) : (
             <div className="flex items-center justify-center h-[300px]">
+              {/* Placeholder content */}
               <div className="grid grid-cols-4 w-full h-full">
                 <div className="bg-white"></div>
                 <div className="bg-gray-50"></div>
@@ -111,6 +174,21 @@ const DocCard = () => {
         <div className="flex items-center justify-center h-[300px]">
           Loading...
         </div>
+      )}
+
+      {galleryOpen && (
+        <Dialog open={galleryOpen} onOpenChange={setGalleryOpen}>
+          <DialogContent className="bg-white w-full h-fit">
+            <ImageGallery
+              items={galleryItems}
+              startIndex={startIndex}
+              showThumbnails={false}
+              showPlayButton={false}
+              showFullscreenButton={false}
+              renderItem={(item: any) => item.renderItem()}
+            />
+          </DialogContent>
+        </Dialog>
       )}
     </div>
   )

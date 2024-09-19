@@ -25,6 +25,7 @@ const PhotoCard = () => {
   const deleteImageMutation = trpc.images.deleteImage.useMutation({
     onSuccess: () => {
       toast.success('Image deleted successfully.')
+      setCarouselOpen(false)
       refetch()
     },
     onError: (error) => {
