@@ -1,3 +1,4 @@
+https://github.com/user-attachments/assets/cf869552-5e36-4a76-b4b0-ba16e48869c1
 
 # Personal Cloud
 
@@ -19,6 +20,9 @@ This app is clone of apple Cloud
 
 ## To Setup Locally
 
+
+
+
 ```
 git clone https://github.com/faisal004/personal-cloud.git
 
@@ -31,6 +35,7 @@ git clone https://github.com/faisal004/personal-cloud.git
  ```
  AUTH_SECRET="" # Add it using `npx auth`. Read more: https://cli.authjs.dev
 DATABASE_URL="your db url'
+UPLOADTHING_TOKEN="" // get your uploadthing token
  ```
 
  2. Now run in app/web
