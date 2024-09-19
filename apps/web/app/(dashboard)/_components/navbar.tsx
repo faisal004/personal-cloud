@@ -1,8 +1,7 @@
 import Link from 'next/link'
 import { FaRegUserCircle } from 'react-icons/fa'
 import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover'
-import { MdOutlineCancel } from "react-icons/md";
-import { auth, signOut } from '../../../auth';
+import { auth,  } from '../../../auth';
 import UserCircle from './userCicle';
 const Navbar = async() => {
   const session = await auth()
