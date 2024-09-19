@@ -5,6 +5,7 @@ import { SessionProvider } from 'next-auth/react'
 import Provider from './_trpc/Provider'
 import { Roboto } from 'next/font/google'
 import Footer from './_components/footer'
+import { Toaster } from './ui/toaster'
 
 // const geistSans = localFont({
 //   src: './fonts/GeistVF.woff',
@@ -36,6 +37,7 @@ export default function RootLayout({
           <Provider>
           {children}
           <Footer/>
+          <Toaster />
 
 
           </Provider>

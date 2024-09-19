@@ -6,12 +6,14 @@ import { trpc } from '../../_trpc/client'
 import { useSession } from 'next-auth/react'
 import { IoMdTime } from 'react-icons/io'
 import Link from 'next/link'
+import { useState } from 'react'
+import { toast } from 'sonner'
 
 const DocCard = () => {
   const { data } = useSession()
   const userId = data?.user?.id
-
-  const { data: files, isLoading, error } = trpc.files.getFilesByUserId.useQuery(
+  const [open,setOpen]=useState(false)
+  const { data: files, isLoading, error,refetch } = trpc.files.getFilesByUserId.useQuery(
     userId as string,
   )
 
@@ -39,7 +41,7 @@ const DocCard = () => {
           </div>
         </div>
         <div>
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="bg-gradient-to-tr from-[#aecef6] to-[#e8eeef] py-2 px-3 rounded-lg hover:shadow-sm">
               Upload
             </DialogTrigger>
@@ -54,11 +56,13 @@ const DocCard = () => {
                 }}
                 endpoint="fileUploader"
                 onClientUploadComplete={(res:any) => {
-                  console.log('Files: ', res)
-                  alert('Upload Completed')
+                  toast.success("Doc have been uploaded Successfully")
+                  setOpen(false)
+                  refetch()
                 }}
                 onUploadError={(error: Error) => {
-                  alert(`ERROR! ${error.message}`)
+                  toast.error(` ${error.message}`)
+                  setOpen(false)
                 }}
               />
             </DialogContent>

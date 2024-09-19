@@ -12,7 +12,6 @@ type Note = {
   id: string
   userId: string
   content: string
-  // Add any other properties your note may have
 }
 const NotesCard = () => {
   const { data } = useSession()

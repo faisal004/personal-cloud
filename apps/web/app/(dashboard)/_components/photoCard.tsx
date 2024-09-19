@@ -4,13 +4,16 @@ import { UploadDropzone } from '../../../utils/uploadthing'
 import { Dialog, DialogContent, DialogTrigger } from '../../ui/dialog'
 import { trpc } from '../../_trpc/client'
 import { useSession } from 'next-auth/react'
+import { toast } from "sonner"
+import { useState } from 'react'
 
 const PhotoCard = () => {
   const { data } = useSession()
+  const [open,setOpen]=useState(false)
 
   const userId = data?.user?.id
 
-  const { data: images, isLoading, error } = trpc.images.getImagesByUserId.useQuery(
+  const { data: images, isLoading, error,refetch } = trpc.images.getImagesByUserId.useQuery(
     userId as string,
   )
 
@@ -43,7 +46,7 @@ const PhotoCard = () => {
           </div>
         </div>
         <div>
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="bg-gradient-to-tr from-[#aecef6] to-[#e8eeef] py-2 px-3 rounded-lg hover:shadow-sm">
               Upload
             </DialogTrigger>
@@ -58,12 +61,14 @@ const PhotoCard = () => {
                 }}
                 endpoint="imageUploader"
                 onClientUploadComplete={(res:any) => {
-                  console.log('Files: ', res)
-
-                  alert('Upload Completed')
+                  toast.success("Image have been uploaded Successfully")
+                  setOpen(false)
+                  refetch()
                 }}
                 onUploadError={(error: Error) => {
-                  alert(`ERROR! ${error.message}`)
+                
+                  toast.error(` ${error.message}`)
+                  setOpen(false)
                 }}
               />
             </DialogContent>
