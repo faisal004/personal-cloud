@@ -10,7 +10,7 @@ const PhotoCard = () => {
 
   const userId = data?.user?.id
 
-  const { data: images, isLoading, error } = trpc.getImagesByUserId.useQuery(
+  const { data: images, isLoading, error } = trpc.images.getImagesByUserId.useQuery(
     userId as string,
   )
 

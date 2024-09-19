@@ -11,7 +11,7 @@ const DocCard = () => {
   const { data } = useSession()
   const userId = data?.user?.id
 
-  const { data: files, isLoading, error } = trpc.getFilesByUserId.useQuery(
+  const { data: files, isLoading, error } = trpc.files.getFilesByUserId.useQuery(
     userId as string,
   )
 

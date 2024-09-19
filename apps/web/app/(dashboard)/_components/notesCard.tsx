@@ -20,13 +20,13 @@ const NotesCard = () => {
   const [open, setOpen] = useState(false)
   const [selectedNote, setSelectedNote] = useState<Note | null>(null)
   const userId = data?.user?.id
-  const deleteNoteMutation = trpc.deleteNote.useMutation()
+  const deleteNoteMutation = trpc.notes.deleteNote.useMutation()
   const {
     data: notes,
     isLoading,
     error,
     refetch,
-  } = trpc.geNotesByUserId.useQuery(userId as string)
+  } = trpc.notes.geNotesByUserId.useQuery(userId as string)
 
   const handleEditClick = (note: any) => {
     setSelectedNote(note)
