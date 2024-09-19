@@ -28,12 +28,12 @@ const NotesCard = () => {
     refetch,
   } = trpc.notes.geNotesByUserId.useQuery(userId as string)
 
-  const handleEditClick = (note: any) => {
+  const handleEditClick = (note: Note) => {
     setSelectedNote(note)
     setOpen(true)
     toast.success("Noted Updated")
   }
-  const handleDelete = (note: any) => {
+  const handleDelete = (note: Note) => {
     setSelectedNote(note)
     setShowAlert(true)
   }

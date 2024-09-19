@@ -4,23 +4,66 @@ import { UploadDropzone } from '../../../utils/uploadthing'
 import { Dialog, DialogContent, DialogTrigger } from '../../ui/dialog'
 import { trpc } from '../../_trpc/client'
 import { useSession } from 'next-auth/react'
-import { toast } from "sonner"
+import { toast } from 'sonner'
 import { useState } from 'react'
-
+import ImageGallery from 'react-image-gallery'
+import 'react-image-gallery/styles/css/image-gallery.css'
 const PhotoCard = () => {
   const { data } = useSession()
-  const [open,setOpen]=useState(false)
-
+  const [open, setOpen] = useState(false)
+  const [carouselOpen, setCarouselOpen] = useState(false)
+  const [startIndex, setStartIndex] = useState(0)
   const userId = data?.user?.id
 
-  const { data: images, isLoading, error,refetch } = trpc.images.getImagesByUserId.useQuery(
-    userId as string,
-  )
+  const {
+    data: images,
+    isLoading,
+    error,
+    refetch,
+  } = trpc.images.getImagesByUserId.useQuery(userId as string)
 
-  //  if (isLoading) {
-  //    return <div>Loading...</div>
-  //  }
+  const deleteImageMutation = trpc.images.deleteImage.useMutation({
+    onSuccess: () => {
+      toast.success('Image deleted successfully.')
+      refetch()
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+  })
+  const handleDeleteImage = async (imageId: string) => {
+    deleteImageMutation.mutate({ id: imageId, userId: userId as string })
+  }
 
+  const galleryImages =
+    images?.map((image) => ({
+      original: image.url,
+      thumbnail: image.url,
+      originalAlt: 'User uploaded image',
+      renderItem: () => (
+        <div className="  w-full h-full">
+          <Image
+            src={image.url}
+            alt="User uploaded"
+            height={500}
+            width={500}
+            className="w-full h-full object-contain"
+          />
+          <div className="flex items-center justify-end py-3">
+            <button
+              onClick={() => handleDeleteImage(image.id)}
+              className=" h-10  items-center flex justify-center text-center right-2 bg-red-500 text-white p-2 rounded"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      ),
+    })) || []
+  const handleImageClick = (index: number) => {
+    setStartIndex(index)
+    setCarouselOpen(true)
+  }
   if (error) {
     console.error(error)
     return <div>Error loading images.</div>
@@ -60,13 +103,12 @@ const PhotoCard = () => {
                     'flex h-8 flex-col items-center justify-center px-2 text-white',
                 }}
                 endpoint="imageUploader"
-                onClientUploadComplete={(res:any) => {
-                  toast.success("Image have been uploaded Successfully")
+                onClientUploadComplete={(res: any) => {
+                  toast.success('Image have been uploaded Successfully')
                   setOpen(false)
                   refetch()
                 }}
                 onUploadError={(error: Error) => {
-                
                   toast.error(` ${error.message}`)
                   setOpen(false)
                 }}
@@ -85,6 +127,7 @@ const PhotoCard = () => {
                   className={`relative h-full w-full group ${
                     index >= 4 ? 'hidden lg:block' : ''
                   } ${index >= 7 ? 'lg:hidden' : ''}`}
+                  onClick={() => handleImageClick(index)}
                 >
                   <div className="absolute inset-0 group-hover:bg-black/40 z-20"></div>
                   <Image
@@ -117,6 +160,20 @@ const PhotoCard = () => {
         <div className="flex items-center justify-center h-full">
           Loading...
         </div>
+      )}
+      {carouselOpen && (
+        <Dialog open={carouselOpen} onOpenChange={setCarouselOpen}>
+          <DialogContent className="bg-blue-50 w-full h-fit">
+            <ImageGallery
+              items={galleryImages}
+              startIndex={startIndex}
+              showThumbnails={false}
+              showPlayButton={false}
+              showFullscreenButton={false}
+              renderItem={(item: any) => item.renderItem()}
+            />
+          </DialogContent>
+        </Dialog>
       )}
     </div>
   )

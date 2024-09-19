@@ -2,7 +2,6 @@ import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 import { auth } from "../../../auth";
 import { db, files, images } from "@repo/db";
-
 const f = createUploadthing();
 
 
