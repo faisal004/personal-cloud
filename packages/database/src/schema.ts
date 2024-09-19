@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm"
 import {
   boolean,
   timestamp,
@@ -108,6 +109,10 @@ export const notes = pgTable(
     userId: text("userId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at")
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+      updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`).notNull(), 
   }
 )
 export const authenticators = pgTable(

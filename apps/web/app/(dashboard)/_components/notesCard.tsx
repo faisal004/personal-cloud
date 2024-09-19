@@ -9,6 +9,7 @@ import { NotesEditor } from './notesEditor'
 import { useState } from 'react'
 import GenericAlertDialog from './deleteAlert'
 import { toast } from 'sonner'
+import { formatCustomDate } from '../../../utils/convertDate'
 type Note = {
   id: string
   userId: string
@@ -31,7 +32,7 @@ const NotesCard = () => {
   const handleEditClick = (note: Note) => {
     setSelectedNote(note)
     setOpen(true)
-    toast.success("Noted Updated")
+    toast.success('Noted Updated')
   }
   const handleDelete = (note: Note) => {
     setSelectedNote(note)
@@ -43,10 +44,10 @@ const NotesCard = () => {
         userId: userId as string,
         id: selectedNote.id,
       })
-      refetch() 
-      setShowAlert(false) 
-      setSelectedNote(null) 
-      toast.success("Noted Deleted")
+      refetch()
+      setShowAlert(false)
+      setSelectedNote(null)
+      toast.success('Noted Deleted')
     }
   }
 
@@ -54,13 +55,11 @@ const NotesCard = () => {
     setOpen(false)
     setSelectedNote(null)
     refetch()
-
   }
   if (error) {
     console.error(error)
     return <div>Error loading images.</div>
   }
-
   return (
     <>
       <div className="w-full bg-white h-full flex flex-col overflow-hidden  rounded-3xl hover:shadow-2xl hover:shadow-black cursor-pointer hover:scale-102 transition-all duration-300">
@@ -103,29 +102,25 @@ const NotesCard = () => {
                   <div
                     key={notes.id}
                     className="grid grid-cols-1  border-b-2 p-2 hover:bg-slate-50 relative group "
-              
                   >
-                    <div className='flex items-center gap-2 absolute right-2 top-10'>
-                    <button
-                       onClick={() => handleEditClick(notes)}
-                      className=" hidden group-hover:flex hover:bg-blue-300 rounded-md "
-                    >
-                      <FaPen
-                        className="h-5 w-5 text-blue-400"
-                        fill="blue"
-                      />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(notes)}
-                      className=" hidden group-hover:flex hover:bg-red-300 rounded-md "
-                    >
-                      <MdDeleteOutline
-                        className="h-6 w-6 text-red-400"
-                        fill="red"
-                      />
-                    </button>
+                    <div className="flex items-center gap-2 absolute right-2 top-10">
+                      <button
+                        onClick={() => handleEditClick(notes)}
+                        className=" hidden group-hover:flex hover:bg-blue-300 rounded-md "
+                      >
+                        <FaPen className="h-5 w-5 text-blue-400" fill="blue" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(notes)}
+                        className=" hidden group-hover:flex hover:bg-red-300 rounded-md "
+                      >
+                        <MdDeleteOutline
+                          className="h-6 w-6 text-red-400"
+                          fill="red"
+                        />
+                      </button>
                     </div>
-                
+
                     <div className="text-[20px] capitalize">
                       <div
                         dangerouslySetInnerHTML={{
@@ -138,6 +133,7 @@ const NotesCard = () => {
                         dangerouslySetInnerHTML={{ __html: notes.content }}
                       />
                     </div>
+                    <div className='bg-slate-100 w-fit p-1 rounded-md '>{formatCustomDate(notes.updatedAt)}</div>
                   </div>
                 ))}
               </div>
