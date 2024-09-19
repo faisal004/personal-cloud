@@ -11,11 +11,6 @@ import {
 
 
 
-export const todos = pgTable("todos", {
-  id: integer("id").primaryKey(),
-  content: text("content").notNull(),
-  done: boolean("false")
-})
 export const users = pgTable("user", {
   id: text("id")
     .primaryKey()
