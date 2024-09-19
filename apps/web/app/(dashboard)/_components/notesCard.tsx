@@ -8,6 +8,7 @@ import { FaPen } from 'react-icons/fa'
 import { NotesEditor } from './notesEditor'
 import { useState } from 'react'
 import GenericAlertDialog from './deleteAlert'
+import { toast } from 'sonner'
 type Note = {
   id: string
   userId: string
@@ -30,6 +31,7 @@ const NotesCard = () => {
   const handleEditClick = (note: any) => {
     setSelectedNote(note)
     setOpen(true)
+    toast.success("Noted Updated")
   }
   const handleDelete = (note: any) => {
     setSelectedNote(note)
@@ -44,6 +46,7 @@ const NotesCard = () => {
       refetch() 
       setShowAlert(false) 
       setSelectedNote(null) 
+      toast.success("Noted Deleted")
     }
   }
 
@@ -51,6 +54,7 @@ const NotesCard = () => {
     setOpen(false)
     setSelectedNote(null)
     refetch()
+
   }
   if (error) {
     console.error(error)
