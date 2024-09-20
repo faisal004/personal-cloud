@@ -25,7 +25,7 @@ const HomeSection = () => {
       <div className="flex flex-col items-center justify-center mt-[80px] md:mt-[0px]">
         <div>
           {status === 'authenticated' ? (
-            <div className='flex max-w-screen-sm:flex-row items-center gap-2'>
+            <div className='flex items-center gap-2'>
               <Link href={"/dashboard"}
                 className="bg-black rounded-full font-light text-white px-10 py-2 text-2xl mt-7 tracking-wider"
               >
