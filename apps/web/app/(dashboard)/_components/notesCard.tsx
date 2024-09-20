@@ -56,10 +56,10 @@ const NotesCard = () => {
     setSelectedNote(null)
     refetch()
   }
-  if (error) {
-    console.error(error)
-    return <div>Error loading images.</div>
-  }
+  // if (error) {
+  //   console.error(error)
+  //   return <div>Error loading images.</div>
+  // }
   return (
     <>
       <div className="w-full bg-white h-full flex flex-col overflow-hidden  rounded-3xl hover:shadow-2xl hover:shadow-black cursor-pointer hover:scale-102 transition-all duration-300">
@@ -94,7 +94,7 @@ const NotesCard = () => {
             </Dialog>
           </div>
         </div>
-        {!isLoading && (
+        {!isLoading && !error && (
           <div className="h-[300px] ">
             {notes && notes.length > 0 ? (
               <div className=" md:h-full h-[300px]  flex flex-col overflow-y-scroll ">
@@ -153,11 +153,16 @@ const NotesCard = () => {
             )}
           </div>
         )}
-        {isLoading && (
+        {isLoading && !error && (
           <div className="flex items-center justify-center h-[300px]">
             Loading...
           </div>
         )}
+          {error && (
+        <div className="flex items-center justify-center h-[300px]">
+          Something Went Wrong
+        </div>
+      )}
       </div>
     </>
   )

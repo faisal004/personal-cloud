@@ -79,10 +79,10 @@ const DocCard = () => {
       ),
     })) || []
 
-  if (error) {
-    console.error(error)
-    return <div>Error loading files.</div>
-  }
+  // if (error) {
+  //   console.error(error)
+  //   return <div>Error loading files.</div>
+  // }
 
   return (
     <div className="w-full bg-white h-full flex flex-col overflow-hidden rounded-3xl hover:shadow-2xl hover:shadow-black cursor-pointer hover:scale-102 transition-all duration-300">
@@ -132,7 +132,7 @@ const DocCard = () => {
           </Dialog>
         </div>
       </div>
-      {!isLoading && (
+      {!isLoading && !error && (
         <div className="h-full overflow-hidden">
           {files && files.length > 0 ? (
             <div className="grid lg:grid-cols-4 grid-cols-2 md:h-full h-[300px] photo-grid">
@@ -170,12 +170,16 @@ const DocCard = () => {
           )}
         </div>
       )}
-      {isLoading && (
+      {isLoading  && !error && (
         <div className="flex items-center justify-center h-[300px]">
           Loading...
         </div>
       )}
-
+  {error && (
+        <div className="flex items-center justify-center h-[300px]">
+          Something Went Wrong
+        </div>
+      )}
       {galleryOpen && (
         <Dialog open={galleryOpen} onOpenChange={setGalleryOpen}>
           <DialogContent className="bg-white w-full h-fit">

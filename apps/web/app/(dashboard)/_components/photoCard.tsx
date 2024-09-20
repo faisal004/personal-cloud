@@ -65,10 +65,10 @@ const PhotoCard = () => {
     setStartIndex(index)
     setCarouselOpen(true)
   }
-  if (error) {
-    console.error(error)
-    return <div>Error loading images.</div>
-  }
+  // if (error) {
+  //   console.error(error)
+  //   return <div>Error loading images.</div>
+  // }
 
   console.log(images)
   return (
@@ -118,7 +118,7 @@ const PhotoCard = () => {
           </Dialog>
         </div>
       </div>
-      {!isLoading && (
+      {!isLoading && !error && (
         <div className="h-full overflow-hidden  ">
           {images && images.length > 0 ? (
             <div className="grid lgnew:grid-cols-4 grid-cols-2 md:h-full h-[300px] photo-grid  ">
@@ -157,9 +157,14 @@ const PhotoCard = () => {
           )}
         </div>
       )}
-      {isLoading && (
+      {isLoading && !error && (
         <div className="flex items-center justify-center h-full">
           Loading...
+        </div>
+      )}
+       {error && (
+        <div className="flex items-center justify-center h-[300px]">
+          Something Went Wrong
         </div>
       )}
       {carouselOpen && (
